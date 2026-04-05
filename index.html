@@ -54,10 +54,19 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      gap: clamp(4px, 1.8dvh, 28px);
+      gap: clamp(20px, 6dvh, 70px);
       min-height: 0;
       width: 100%;
       padding-top: max(clamp(20px, 5dvh, 44px), env(safe-area-inset-top, 0px));
+    }
+
+    .content-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(4px, 1.8dvh, 28px);
+      width: 100%;
+      min-height: 0;
     }
 
     .logo {
@@ -98,7 +107,7 @@
       flex-direction: column;
       align-items: center;
       gap: clamp(6px, 1.8dvh, 18px);
-      margin-top: clamp(8px, 5.5dvh, 72px);
+      margin-top: clamp(12px, 8.25dvh, 108px);
       font-size: clamp(13px, 3.2dvh, 19.2px);
       line-height: 1.15;
       flex-shrink: 0;
@@ -122,6 +131,7 @@
     <div class="content">
     <img class="logo" src="images/logo.png" width="200" alt="Logo">
 
+    <div class="content-main">
     <img class="decor" src="images/decor.png" width="65" alt="" role="presentation">
 
     <p class="intro">
@@ -137,6 +147,7 @@
       <li><a href="#">Buyan</a></li>
       <li><a href="#">Fab</a></li>
     </ul>
+    </div>
     </div>
 
     <p class="email">i@pavelefremov.ru</p>
