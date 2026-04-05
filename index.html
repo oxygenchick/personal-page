@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oxygenchick</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: "Tagesschrift", system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .site {
+      width: 550px;
+      max-width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px 48px;
+    }
+
+    .logo {
+      width: 200px;
+      height: auto;
+      display: block;
+      margin-top: 40px;
+    }
+
+    .decor {
+      width: 65px;
+      height: auto;
+      display: block;
+      margin-top: 28px;
+    }
+
+    .intro {
+      width: 320px;
+      max-width: 100%;
+      margin-top: 28px;
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 400;
+    }
+
+    .links-spacer {
+      height: 72px;
+    }
+
+    .links {
+      list-style: none;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      font-size: 19.2px;
+      line-height: 1.2;
+    }
+
+    .links a {
+      color: #ffffff;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .email {
+      margin-top: auto;
+      padding-top: 48px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="site">
+    <img class="logo" src="images/logo.png" width="200" alt="Logo">
+
+    <img class="decor" src="images/decor.png" width="65" alt="" role="presentation">
+
+    <p class="intro">
+      Independent game developer and artist specializing in game graphics.<br>
+      Currently creating Cauldron Inn.
+    </p>
+
+    <img class="decor" src="images/decor.png" width="65" alt="" role="presentation">
+
+    <div class="links-spacer" aria-hidden="true"></div>
+
+    <ul class="links">
+      <li><a href="#">Cauldron Inn</a></li>
+      <li><a href="#">Indie Toolbox</a></li>
+      <li><a href="#">Buyan</a></li>
+      <li><a href="#">Fab</a></li>
+    </ul>
+
+    <p class="email">i@pavelefremov.ru</p>
+  </div>
+</body>
+</html>
