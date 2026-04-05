@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,7 +7,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/TagesschriftCyrillic-Regular.ttf" as="font" type="font/ttf" crossorigin>
   <style>
+    @font-face {
+      font-family: "Tagesschrift";
+      src: url("fonts/TagesschriftCyrillic-Regular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+0400-04FF, U+0500-052F, U+1C80-1C8F, U+2DE0-2DFF, U+A640-A69F;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -124,33 +134,250 @@
       padding-top: clamp(8px, 2dvh, 24px);
       font-size: clamp(13px, 3.2dvh, 16px);
     }
+
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 1em;
+      margin-top: clamp(8px, 1.6dvh, 14px);
+      font-size: clamp(11px, 2.5dvh, 13px);
+      line-height: 1;
+      opacity: 0.92;
+    }
+
+    .lang-toggle button {
+      margin: 0;
+      padding: 0;
+      font: inherit;
+      color: rgba(255, 255, 255, 0.38);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      text-underline-offset: 3px;
+    }
+
+    .lang-toggle button[aria-pressed="true"] {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .lang-toggle button[aria-pressed="false"]:hover {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .lang-toggle button:focus-visible {
+      outline: none;
+      color: #ffffff;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="site">
     <div class="content">
-    <img class="logo" src="images/logo.png" width="200" alt="Logo">
+    <img class="logo" src="images/logo.png" width="200" alt="Логотип" data-i18n-alt="logo">
 
     <div class="content-main">
     <img class="decor" src="images/decor.png" width="65" alt="" role="presentation">
 
-    <p class="intro">
-      Independent game developer and artist specializing in game graphics.<br>
-      Currently creating Cauldron Inn.
-    </p>
+    <p class="intro" id="intro"></p>
 
     <img class="decor" src="images/decor.png" width="65" alt="" role="presentation">
 
     <ul class="links">
-      <li><a href="#">Cauldron Inn</a></li>
-      <li><a href="#">Indie Toolbox</a></li>
-      <li><a href="#">Buyan</a></li>
-      <li><a href="#">Fab</a></li>
+      <li><a id="link-cauldron" href="https://vk.com/hotel_kotel" target="_blank" rel="noopener noreferrer"></a></li>
+      <li><a id="link-indie" href="https://oxygenchick.github.io/Indie-Toolbox/" target="_blank" rel="noopener noreferrer"></a></li>
+      <li><a id="link-bouyan" href="https://soundcloud.com/oxygenchick/sets/tales-of-bouyan?si=8edc4c960623450bbf754b40f85730b5&amp;utm_source=clipboard&amp;utm_medium=text&amp;utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer"></a></li>
+      <li><a id="link-fab" href="https://www.fab.com/ru/sellers/Oxygenchick" target="_blank" rel="noopener noreferrer"></a></li>
     </ul>
     </div>
     </div>
 
-    <p class="email">i@pavelefremov.ru</p>
+    <p class="email" id="email">i@pavelefremov.ru</p>
+
+    <div class="lang-toggle" role="group" aria-label="Язык / Language">
+      <button type="button" id="lang-ru" data-lang="ru" aria-pressed="true">Ru</button>
+      <button type="button" id="lang-en" data-lang="en" aria-pressed="false">En</button>
+    </div>
   </div>
+
+  <script>
+    (function () {
+      var STORAGE_KEY = "oxygenchick-lang";
+      var GEO_CACHE_KEY = "oxygenchick-geo-lang";
+
+      /** Россия и государства — участники СНГ (ISO 3166-1 alpha-2). */
+      var RU_CIS = ["AM", "AZ", "BY", "KZ", "KG", "MD", "RU", "TJ", "TM", "UZ"];
+
+      var DATA = {
+        ru: {
+          logoAlt: "Логотип",
+          introLines: [
+            "Независимый разработчик игр и художник, специализируюсь на игровой графике.",
+            "Сейчас\u00A0делаю Cauldron Inn."
+          ],
+          links: {
+            cauldron: {
+              label: "Cauldron Inn",
+              href: "https://vk.com/hotel_kotel"
+            },
+            indie: {
+              label: "Indie Toolbox",
+              href: "https://oxygenchick.github.io/Indie-Toolbox/"
+            },
+            bouyan: {
+              label: "The Tales Of Bouyan",
+              href: "https://soundcloud.com/oxygenchick/sets/tales-of-bouyan?si=8edc4c960623450bbf754b40f85730b5&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+            },
+            fab: {
+              label: "Fab",
+              href: "https://www.fab.com/ru/sellers/Oxygenchick"
+            }
+          },
+          email: "i@pavelefremov.ru"
+        },
+        en: {
+          logoAlt: "Logo",
+          introLines: [
+            "Independent game developer and artist specializing in game graphics.",
+            "Currently creating Cauldron Inn."
+          ],
+          links: {
+            cauldron: {
+              label: "Cauldron Inn",
+              href: "https://vk.com/hotel_kotel"
+            },
+            indie: {
+              label: "Indie Toolbox",
+              href: "https://oxygenchick.github.io/Indie-Toolbox/"
+            },
+            bouyan: {
+              label: "The Tales Of Bouyan",
+              href: "https://soundcloud.com/oxygenchick/sets/tales-of-bouyan?si=8edc4c960623450bbf754b40f85730b5&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+            },
+            fab: {
+              label: "Fab",
+              href: "https://www.fab.com/sellers/Oxygenchick"
+            }
+          },
+          email: "i@pavelefremov.ru"
+        }
+      };
+
+      function getStoredLang() {
+        try {
+          var s = localStorage.getItem(STORAGE_KEY);
+          if (s === "ru" || s === "en") return s;
+        } catch (e) {}
+        return null;
+      }
+
+      function setStoredLang(lang) {
+        try {
+          localStorage.setItem(STORAGE_KEY, lang);
+        } catch (e) {}
+      }
+
+      function guessLangFromBrowser() {
+        var list = navigator.languages || [navigator.language || ""];
+        for (var i = 0; i < list.length; i++) {
+          var code = (list[i] || "").toLowerCase();
+          if (code.indexOf("ru") === 0) return "ru";
+        }
+        return "en";
+      }
+
+      function detectLangByRegion() {
+        try {
+          var cached = sessionStorage.getItem(GEO_CACHE_KEY);
+          if (cached === "ru" || cached === "en") {
+            return Promise.resolve(cached);
+          }
+        } catch (e) {}
+
+        var ctrl = new AbortController();
+        var timer = setTimeout(function () {
+          ctrl.abort();
+        }, 4500);
+
+        return fetch("https://get.geojs.io/v1/ip/country.json", {
+          cache: "no-store",
+          signal: ctrl.signal
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            clearTimeout(timer);
+            var cc = (data && data.country ? String(data.country) : "").toUpperCase();
+            var lang = RU_CIS.indexOf(cc) !== -1 ? "ru" : "en";
+            try {
+              sessionStorage.setItem(GEO_CACHE_KEY, lang);
+            } catch (e) {}
+            return lang;
+          })
+          .catch(function () {
+            clearTimeout(timer);
+            try {
+              sessionStorage.setItem(GEO_CACHE_KEY, "en");
+            } catch (e) {}
+            return "en";
+          });
+      }
+
+      function applyLang(lang) {
+        var d = DATA[lang];
+        if (!d) return;
+
+        document.documentElement.lang = lang;
+
+        var logo = document.querySelector("[data-i18n-alt]");
+        if (logo) logo.alt = d.logoAlt;
+
+        var intro = document.getElementById("intro");
+        if (intro) {
+          var introSep = lang === "ru" ? " " : "<br>";
+          intro.innerHTML =
+            d.introLines[0] + introSep + d.introLines[1];
+        }
+
+        [["link-cauldron", "cauldron"], ["link-indie", "indie"], ["link-bouyan", "bouyan"], ["link-fab", "fab"]].forEach(function (pair) {
+          var el = document.getElementById(pair[0]);
+          var key = pair[1];
+          if (el && d.links[key]) {
+            el.textContent = d.links[key].label;
+            el.href = d.links[key].href;
+          }
+        });
+
+        var emailEl = document.getElementById("email");
+        if (emailEl) emailEl.textContent = d.email;
+
+        document.getElementById("lang-ru").setAttribute("aria-pressed", lang === "ru" ? "true" : "false");
+        document.getElementById("lang-en").setAttribute("aria-pressed", lang === "en" ? "true" : "false");
+      }
+
+      var saved = getStoredLang();
+      if (saved) {
+        applyLang(saved);
+      } else {
+        applyLang(guessLangFromBrowser());
+        detectLangByRegion().then(function (lang) {
+          if (getStoredLang()) return;
+          applyLang(lang);
+        });
+      }
+
+      document.getElementById("lang-ru").addEventListener("click", function () {
+        setStoredLang("ru");
+        applyLang("ru");
+      });
+      document.getElementById("lang-en").addEventListener("click", function () {
+        setStoredLang("en");
+        applyLang("en");
+      });
+    })();
+  </script>
 </body>
 </html>
